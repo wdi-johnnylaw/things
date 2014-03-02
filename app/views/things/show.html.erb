@@ -1,9 +1,15 @@
-<h1><%= @thing.name %></h1>
+<h1>
+  <%= @thing.name %>
+  <%= render partial: 'opinions/rating', locals: { rating: @thing.opinions.average(:rating) } %>
+</h1>
 
 <section class="row">
-  <%= image_tag @thing.image_url, class: 'small-12 medium-5 column' %>
+  <span class="small-12 medium-5 column">
+    <%= image_tag @thing.image_url %>
+  </span>
+
   <div class="small-12 medium-7 column">
-    <p><%= truncate(@thing.description, length: 800, escape: false) %></p>
+    <p><%= truncate @thing.description, length: 800, escape: false %></p>
 
     <ul class="opinions-list">
       <%= render @thing.opinions %>
