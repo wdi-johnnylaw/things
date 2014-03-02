@@ -12,7 +12,7 @@ $full-star-url: 'data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJod
   font-size: 0;
   white-space: nowrap;
   display: inline-block;
-  width: 150px;
+  width: 153px;
   height: 30px;
   overflow: hidden;
   position: relative;
@@ -116,4 +116,9 @@ cite {
   display: block;
   text-indent: 30%;
   margin-bottom: .5em;
+}
+
+fieldset {
+  border: 2px solid #bbb;
+  border-radius: 10px;
 }

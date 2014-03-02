@@ -19,3 +19,11 @@ section.body {
   padding: 0 1rem;
   max-width: 62.5rem;
 }
+
+.error {
+  color: red;
+}
+
+.notice {
+  color: green;
+}
