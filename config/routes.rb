@@ -1,6 +1,6 @@
 Things::Application.routes.draw do
   resources :things, only: [:index, :show]
-  resources :opinions, only: [:create]
+  resources :opinions, only: [:create, :update]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
