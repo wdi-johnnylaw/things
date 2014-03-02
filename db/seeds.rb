@@ -10,7 +10,7 @@ Opinion.destroy_all
 User.destroy_all
 Thing.destroy_all
 
-johnnylaw, juan, boo = ['johnnylaw', 'juanvaldez', 'booboo'].map do |username|
+johnnylaw, juan, boo, other, brother = ['johnnylaw', 'juanvaldez', 'booboo', 'other', 'brother'].map do |username|
   User.create(username: username)
 end
 
@@ -26,7 +26,9 @@ end
 
 Opinion.create([
   { user: juan, thing: dyson, comment: 'Great. I never thought I would love cleaning. Blah blah blah', rating: 4 },
-  { user: boo, thing: dyson, comment: 'I was shocked to see that this thing didn\'t actually do my cleaning. Lame!', rating: 2 },
+  { user: boo, thing: dyson, comment: 'I was shocked to see that this thing didn\'t actually do my cleaning. Lame!', rating: 1 },
+  { user: other, thing: dyson, comment: 'Some on-and-on stuff about a vacuum cleaner, etc, etc.', rating: 4 },
+  { user: brother, thing: dyson, comment: 'Yaddah, yaddah, yaddah...and then you wouldn\'t believe what happened next...', rating: 5 },
   { user: boo, thing: cabbage, comment: 'These things are totally cute. So happy. I wanna lie around for hours and kiss them...', rating: 4 },
   { user: juan, thing: cabbage, comment: 'Why?...just - why?', rating: 1 },
   { user: boo, thing: ira, comment: 'Eye - ruh! Eye - ruh! Eye - ruh!', rating: 5 },

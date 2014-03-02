@@ -12,8 +12,10 @@
   </head>
 
   <body>
+    <section class="body">
+      <%= yield %>
+    </section>
 
-    <%= yield %>
     <%= javascript_include_tag "application" %>
   </body>
 </html>
