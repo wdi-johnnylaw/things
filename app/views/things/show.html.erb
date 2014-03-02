@@ -4,5 +4,13 @@
   <%= image_tag @thing.image_url, class: 'small-12 medium-5 column' %>
   <div class="small-12 medium-7 column">
     <p><%= truncate(@thing.description, length: 800, escape: false) %></p>
+
+    <ul class="opinions-list">
+      <%= render @thing.opinions %>
+    </ul>
   </div>
+
 </section>
+
+
+

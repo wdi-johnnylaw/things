@@ -1,10 +1,10 @@
 require 'spec_helper'
 
 describe Thing do
-  describe 'validations' do
-    let(:thing) { FactoryGirl.build :thing }
-    subject { thing }
+  let(:thing) { FactoryGirl.build :thing }
+  subject { thing }
 
+  describe 'validations' do
     context 'when all attributes are valid' do
       it { should be_valid }
     end
@@ -17,6 +17,10 @@ describe Thing do
         expect(thing.errors[:name]).to include "has already been taken"
       end
     end
+  end
+
+  describe 'associations' do
+    it { should respond_to :opinions }
   end
 end
 

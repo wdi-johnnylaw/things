@@ -1,0 +1,5 @@
+<li>
+  <%= render partial: 'opinions/rating', locals: { rating: opinion.rating } %>
+  <q><%= opinion.comment %></q>
+  <cite>&minus; <%= opinion.user.username %></cite>
+</li>
