@@ -12,13 +12,8 @@
     <p><%= truncate @thing.description, length: 300, escape: false %></p>
 
     <fieldset>
-      <% opinion = @thing.opinions.find_by(user_id: current_user.id) || Opinion.new %>
-      <% if opinion.persisted? %>
-        <legend>Change of heart? Update your opinion</legend>
-      <% else %>
-        <legend>Please give us your opinion</legend>
-      <% end %>
-      <%= form_for opinion do |f| %>
+      <legend><%= give_your_opinion_banner(@opinion) %></legend>
+      <%= form_for @opinion do |f| %>
         <%= f.hidden_field :thing_id, value: @thing.id %>
         <span class="star-rating">
           <%= f.radio_button :rating, 1, class: 'one' %><i></i>

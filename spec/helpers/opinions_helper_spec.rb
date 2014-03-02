@@ -26,4 +26,19 @@ describe OpinionsHelper do
       it { should eq 4/0.0497 }
     end
   end
+
+  describe '::give_your_opinion_banner' do
+    let(:opinion) { double persisted?: persisted }
+    subject { helper.give_your_opinion_banner(opinion) }
+
+    context 'when opinion is new' do
+      let(:persisted) { false }
+      it { should eq "Please share your opinion" }
+    end
+
+    context 'when opinion has already been saved' do
+      let(:persisted) { true }
+      it { should eq "Change of heart? Update your opinion" }
+    end
+  end
 end
