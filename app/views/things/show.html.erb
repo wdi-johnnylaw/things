@@ -12,8 +12,9 @@
     <p><%= truncate @thing.description, length: 300, escape: false %></p>
 
     <fieldset>
-      <legend><%= give_your_opinion_banner(@opinion) %></legend>
-      <%= form_for @opinion do |f| %>
+      <% opinion = @thing.opinions.find_by(user_id: current_user.id) || Opinion.new %>
+      <legend><%= give_your_opinion_banner(opinion) %></legend>
+      <%= form_for opinion do |f| %>
         <%= f.hidden_field :thing_id, value: @thing.id %>
         <span class="star-rating">
           <%= f.radio_button :rating, 1, class: 'one' %><i></i>
@@ -31,8 +32,4 @@
       <%= render @thing.opinions %>
     </ul>
   </div>
-
 </section>
-
-
-
