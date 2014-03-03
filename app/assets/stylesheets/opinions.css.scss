@@ -122,3 +122,11 @@ fieldset {
   border: 2px solid #bbb;
   border-radius: 10px;
 }
+
+span.opinion-created-at {
+  font-size: 80%;
+  opacity: .6;
+  margin-left: 1em;
+  position: relative;
+  top: -.3em;
+}
