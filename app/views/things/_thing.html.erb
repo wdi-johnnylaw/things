@@ -1,1 +1,5 @@
-<li><%= link_to thing.name, thing%></li>
+<li>
+<%= link_to thing do %>
+	<%= image_tag thing.image_url %><br /><%= thing.name %>
+<% end %>
+</li>
