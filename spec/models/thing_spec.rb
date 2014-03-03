@@ -4,6 +4,15 @@ describe Thing do
   let(:thing) { FactoryGirl.build :thing }
   subject { thing }
 
+  describe '#average_rating' do
+    before do
+      FactoryGirl.create :opinion, thing: thing, rating: 1
+      FactoryGirl.create :opinion, thing: thing, rating: 2
+    end
+
+    its(:average_rating) { should eq 1.5 }
+  end
+
   describe 'validations' do
     context 'when all attributes are valid' do
       it { should be_valid }
