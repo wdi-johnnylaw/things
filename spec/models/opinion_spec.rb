@@ -28,11 +28,11 @@ describe Opinion do
     end
 
     context 'when comment is shorter than 15 characters' do
-      let(:opinion) { FactoryGirl.build :opinion, comment: '12345678901234' }
+      let(:opinion) { FactoryGirl.build :opinion, comment: '' }
 
       it do
         should_not be_valid
-        expect(opinion.errors[:comment]).to include "must be at least 15 characters"
+        expect(opinion.errors[:comment]).to be_present
       end
     end
 
