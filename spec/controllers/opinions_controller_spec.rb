@@ -48,7 +48,7 @@ describe OpinionsController do
           expect(opinion['comment']).to eq post_params[:opinion][:comment]
           expect(opinion['url']).to eq opinion_url(Opinion.first, format: 'json')
           thing = opinion['thing']
-          expect(opinion.keys.count).to eq 5
+          expect(opinion.keys.count).to eq 8
 
           expect(thing['average_rating']).to eq 23.55
           expect(thing.keys.count).to eq 2
@@ -147,7 +147,7 @@ describe OpinionsController do
           expect(opinion['url']).to eq opinion_url(Opinion.first, format: 'json')
           thing = opinion['thing']
 
-          expect(opinion.keys.count).to eq 5
+          expect(opinion.keys.count).to eq 8
 
           expect(thing['average_rating']).to eq 23.55
           expect(thing.keys.count).to eq 2

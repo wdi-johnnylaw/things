@@ -1,4 +1,4 @@
-$(function() {
+window.loadThingPage = function() {
   $.get(window.location.href + '.json', function(data) {
     var thing = data.thing;
 
@@ -20,8 +20,24 @@ $(function() {
       var ratingPercentage = this.rating * 20;
       var opinionCreatedAt = $.format.date(this.created_at, "ddd, MMM d, yyyy h:mm a").replace(/^([\w]{3})[\w]+(.*)$/, '$1$2')
 
-      var opinionHTML = '<li><span class="star-rating prior"><span style="width:' + ratingPercentage + '%"></span></span><span class="opinion-created-at">' + opinionCreatedAt + '</span><q>' + this.comment + '</q><cite>&mdash;' + this.username + '</cite></li>';
+      var opinionHTML = '<li id="opinion-' + this.id + '"><span class="star-rating prior"><span style="width:' + ratingPercentage + '%"></span></span><span class="opinion-created-at">' + opinionCreatedAt + '</span><q>' + this.comment + '</q><cite>&mdash;' + this.username + '</cite></li>';
       $('ul.opinions-list').append(opinionHTML);
     });
   });
-});
+};
+
+window.loadThingsPage = function() {
+  // AJAX call to get our list of things
+  $.ajax({
+    type: 'GET',
+    url: 'http://localhost:3000/things.json',
+    dataType: 'json'
+  }).done(function(data) {
+    // grabs the template we're going to use
+    var source = $("#things-template").html();
+    // compiles it with Handlebars (pops content from things into thing-template)
+    var template = Handlebars.compile(source);
+    // displays compiled template with things in a div called content
+    $('#content').html(template(data));
+  });
+};

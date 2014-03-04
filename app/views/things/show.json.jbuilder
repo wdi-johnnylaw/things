@@ -4,12 +4,12 @@ json.thing do |json|
 
   json.opinions do |json|
     json.array! @thing.opinions do |opinion|
-      json.extract! opinion, :rating, :comment, :created_at
+      json.extract! opinion, :id, :rating, :comment, :created_at
       json.username opinion.user.username
     end
   end
 
-  opinion = @thing.opinions.find_by(user_id: current_user.id) || Opinion.new(thing: @thing)
+  opinion = @thing.opinions.find_by(user_id: current_user.id) || Opinion.new(thing: @thing, user: current_user)
   json.current_user_opinion do |json|
     json.partial! opinion
   end

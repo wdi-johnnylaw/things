@@ -79,7 +79,7 @@ describe ThingsController do
           expect(opinion['comment']).to eq db_opinion.comment
           expect(Time.parse(opinion['created_at']).to_s).to eq Time.parse(db_opinion.created_at.to_s).to_s
           expect(opinion['username']).to eq current_user.username
-          expect(opinion.keys.count).to eq 4
+          expect(opinion.keys.count).to eq 5
         end
       end
 

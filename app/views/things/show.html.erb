@@ -14,7 +14,7 @@
     <fieldset>
       <% opinion = @thing.opinions.find_by(user_id: current_user.id) || Opinion.new %>
       <legend><%= give_your_opinion_banner(opinion) %></legend>
-      <%= form_for opinion do |f| %>
+      <%= form_for opinion, html: { id: 'current-user-opinion' } do |f| %>
         <%= f.hidden_field :thing_id, value: @thing.id %>
         <span class="star-rating">
           <%= f.radio_button :rating, 1, class: 'one' %><i></i>
@@ -31,3 +31,4 @@
     <ul class="opinions-list"></ul>
   </div>
 </section>
+<script>$(function() { window.loadThingPage(); });</script>
