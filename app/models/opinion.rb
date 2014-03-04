@@ -2,6 +2,8 @@ class Opinion < ActiveRecord::Base
   belongs_to :user
   belongs_to :thing
 
+  default_scope { order(updated_at: :desc) }
+
   validates :user_id, uniqueness: { scope: [:thing_id] }
   validates :comment, length: { minimum: 15, message: 'must be at least 15 characters' }
   validates :rating, numericality: {

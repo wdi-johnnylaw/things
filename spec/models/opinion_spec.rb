@@ -4,6 +4,19 @@ describe Opinion do
   let(:opinion) { FactoryGirl.build :opinion }
   subject { opinion }
 
+  describe '.default_scope' do
+    let(:thing) { FactoryGirl.create :thing }
+    let(:opinions) do
+      [Time.now - 1.day, Time.now, Time.now + 1.day].map do |time|
+        FactoryGirl.create :opinion, thing: thing, updated_at: time
+      end
+    end
+
+    it 'returns opinions in reverse order by updated_at' do
+      expect(Opinion.order(:id)).to eq opinions.reverse  # default_scope order trumps .order here
+    end
+  end
+
   describe 'validations' do
     context 'valid attributes' do
       it { should be_valid }
