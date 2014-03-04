@@ -1,6 +1,0 @@
-<li>
-  <%= render partial: 'opinions/rating', locals: { rating: opinion.rating } %>
-  <span class="opinion-created-at"><%= opinion.created_at.strftime('%a, %b %m, %Y %l:%M %P') %></span>
-  <q><%= opinion.comment %></q>
-  <cite>&minus; <%= opinion.user.username %></cite>
-</li>

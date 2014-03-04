@@ -1,15 +1,15 @@
 <h1>
-  <%= @thing.name %>
-  <%= render partial: 'opinions/rating', locals: { rating: @thing.opinions.average(:rating) } %>
+  <span class="name"></span>
+  <%= render partial: 'opinions/rating' %>
 </h1>
 
 <section class="row">
   <span class="small-12 medium-5 column">
-    <%= image_tag @thing.image_url %>
+    <img class="thing-image" />
   </span>
 
   <div class="small-12 medium-7 column">
-    <p><%= truncate @thing.description, length: 300, escape: false %></p>
+    <p class="thing-description"></p>
 
     <fieldset>
       <% opinion = @thing.opinions.find_by(user_id: current_user.id) || Opinion.new %>
@@ -28,8 +28,6 @@
       <% end %>
     </fieldset>
 
-    <ul class="opinions-list">
-      <%= render @thing.opinions %>
-    </ul>
+    <ul class="opinions-list"></ul>
   </div>
 </section>

@@ -12,7 +12,7 @@
     <%= csrf_meta_tags %>
   </head>
 
-  <body>
+  <body class="hide">
     <section class="body">
       <% [:notice, :error].each do |field| %>
         <% if flash[field] %>
@@ -23,5 +23,6 @@
     </section>
 
     <%= javascript_include_tag "application" %>
+    <script>$(function(){$('body').removeClass('hide');});</script>
   </body>
 </html>
