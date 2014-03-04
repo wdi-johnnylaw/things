@@ -10,7 +10,10 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
+// Do not require jquery here; do it above, since this manifest is being included in the body,
+//     apparently
+// require jquery
+//
 //= require jquery_ujs
 //= require foundation
 //= require turbolinks
