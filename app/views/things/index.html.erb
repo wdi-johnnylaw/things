@@ -1,5 +1,13 @@
 <h1>Things</h1>
-
-<ul class="things-list">
-  <%= render @things %>
-</ul>
+<div id="content"></div>
+<script id="thing-template" type="text/x-handlebars-template">
+	<ul class="things-list">
+	  {{#each things}}
+	  	<li class="large-4 medium-6 small-12 columns left">
+	  		<a href="/things/{{id}}" class="container large-11 medium-11 small-11 columns">
+    		<img src="{{image_url}}"<span class="name">{{name}}</span>
+    		</a>
+	  	</li>
+	  {{/each}}
+	</ul>
+</script>

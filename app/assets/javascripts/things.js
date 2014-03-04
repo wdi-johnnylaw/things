@@ -25,3 +25,17 @@ $(function() {
     });
   });
 });
+
+// AJAX call to get our list of things
+$.ajax({
+    type: 'GET', 
+    url: 'http://localhost:3000/things.json', 
+    dataType: 'json'
+}).done(function(data) {
+    // grabs the template we're going to use
+    var source = $("#thing-template").html();
+    // compiles it with Handlebars (pops content from things into thing-template)
+    var template = Handlebars.compile(source);
+    // displays compiled template with things in a div called content
+    $('#content').html(template(data));
+})
