@@ -6,6 +6,6 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
 
   def current_user
-    @current_user ||= User.first
+    @current_user ||= params.has_key?(:username) && User.find_by(username: params.delete(:username)) || User.first
   end
 end

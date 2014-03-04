@@ -13,6 +13,9 @@
   </head>
 
   <body class="hide">
+    <header>
+      <span class="logged-in">Logged in as <span class="username"><%= current_user.username %></span></span>
+    </header>
     <section class="body">
       <% [:notice, :error].each do |field| %>
         <% if flash[field] %>

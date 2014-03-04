@@ -14,6 +14,15 @@
  *= require_tree .
  */
 
+html {
+  padding: 0;
+  margin: 0;
+}
+body {
+  margin-top: 0;
+  padding-top: 0;
+}
+
 section.body {
   margin: auto;
   padding: 0 1rem;
@@ -26,4 +35,20 @@ section.body {
 
 .notice {
   color: green;
+}
+
+header {
+  text-align: right;
+  background-color: #88aaaa;
+  height: 50px;
+  padding: 0;
+}
+
+header span.logged-in {
+  padding: 10px 50px 10px;
+  display: block;
+}
+
+header span.logged-in span.username {
+  font-weight: bold;
 }
