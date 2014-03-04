@@ -1,5 +1,7 @@
-<li>
-<%= link_to thing do %>
-	<%= image_tag thing.image_url %><br /><%= thing.name %>
-<% end %>
+<li class="large-4 medium-6 small-12 columns left">
+  <%= link_to thing do %>
+    <span class="container large-11 medium-11 small-11 columns">
+    	<%= image_tag thing.image_url %><span class="name"><%= thing.name %></span>
+    </span>
+  <% end %>
 </li>

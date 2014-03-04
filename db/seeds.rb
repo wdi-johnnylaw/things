@@ -43,7 +43,11 @@ end
 # vrp, lps, kmk, gps, ksl, ajam, hcld, ld, hmr, uwr, gsr, osm, hpj, twl, nvm, ffc, bd, cs, cpd
 
 Opinion.create([
-  { user: zack, thing: ajam, comment: 'Justin Case was not able to hear our plans to catch Carmen when we used this jammer.  Very effective.', rating: 4 },
+  { user: zack, thing: ajam, comment: 'This thing is total bullshit!', rating: 2 },
+  { user: pattylarceny, thing: ajam, comment: 'Justin Case was not able to hear our plans to catch Carmen when we used this jammer.  Very effective.', rating: 4 },
+  { user: ivy, thing: ajam, comment: 'If I could own a hundred of these things, I would!', rating: 5 },
+  { user: jules, thing: ajam, comment: 'I found the product so/so to be honest.', rating: 3 },
+  { user: shadow, thing: ajam, comment: 'Well, it certainly is interesting...', rating: 3 },
   { user: pattylarceny, thing: gsr, comment: 'We were able to ditch Ivy in a museum by shattering what I thought was the impossible -- a thick sheet of bulletproof glass.', rating: 5 },
   { user: jules, thing: hmr, comment: 'Hardly clear when reading even standard size print.  Almost worthless.', rating: 2 },
   { user: shadow, thing: osm, comment: 'The laser in this thing is better than a larger and more expensive one that I got in a fake cigarette pack, but the thing quit working after 2 months of use.  I\'m torn.', rating: 3 }
