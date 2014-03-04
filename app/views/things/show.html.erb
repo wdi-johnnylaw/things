@@ -1,33 +1,61 @@
-<h1>
-  <span class="name"></span>
-  <%= render partial: 'opinions/rating' %>
-</h1>
+<script id="thing-template" type="text/x-handlebars-template">
+<section class="body">
+  <h1>
+    <span class="name">{{thing.name}}</span>
+    <span class="star-rating prior"><span width="{{thing.ratingWidth}}%"></span></span>
+  </h1>
+  <section class="row">
+    <span class="small-12 medium-5 column">
+      <img src="{{thing.image_url}}">
+    </span>
 
-<section class="row">
-  <span class="small-12 medium-5 column">
-    <img class="thing-image" />
-  </span>
+    <div class="small-12 medium-7 column">
+      <p>{{thing.description}}</p>
 
-  <div class="small-12 medium-7 column">
-    <p class="thing-description"></p>
+    
+      <fieldset>
+        <legend>
+          {{#if current_user_opinion.is_new }}
+            Please give us your opinion.
+          {{else}}
+            Change of heart? Update your opinion.
+          {{/if }}
+        </legend>
+        <form accept-charset="UTF-8" id="current-user-opinion" action="{{thing.current_user_opinion.url}}" method="post">
+          <div style="margin:0;padding:0;display:inline">
+            <input name="utf8" type="hidden" value="&#x2713;" />
+            {{#if thing.current_user_opinion.is_new}}{{else}}
+              <input name="_method" type="hidden" value="patch" />
+            {{/if}}
+            <input name="authenticity_token" type="hidden" value="{{ form_authenticity_token }}" />
+          </div>
+          <input id="opinion_thing_id" name="opinion[thing_id]" type="hidden" value="{{ thing.id }}" />
 
-    <fieldset>
-      <% opinion = @thing.opinions.find_by(user_id: current_user.id) || Opinion.new %>
-      <legend><%= give_your_opinion_banner(opinion) %></legend>
-      <%= form_for opinion do |f| %>
-        <%= f.hidden_field :thing_id, value: @thing.id %>
-        <span class="star-rating">
-          <%= f.radio_button :rating, 1, class: 'one' %><i></i>
-          <%= f.radio_button :rating, 2, class: 'two' %><i></i>
-          <%= f.radio_button :rating, 3, class: 'three' %><i></i>
-          <%= f.radio_button :rating, 4, class: 'four' %><i></i>
-          <%= f.radio_button :rating, 5, class: 'five' %><i></i>
-        </span>
-        <%= f.text_area :comment %>
-        <%= f.submit 'Rate' %>
-      <% end %>
-    </fieldset>
+          <span class="star-rating">
+            {{#each thing.buttons}}
+              <input type="radio" name="opinion[rating]" {{#if checked}}checked="checked"{{/if}} class="{{class}}" value="{{value}}" />
+              <i></i>
+            {{/each}}
+          </span>
+          
+          <textarea id="opinion_comment" name="opinion[comment]">{{thing.current_user_opinion.comment}}</textarea>
+          <input name="commit" type="submit" value="Rate" />
+        </form>    
+      </fieldset>
 
-    <ul class="opinions-list"></ul>
-  </div>
+
+      <ul class="opinion-list">  
+        {{#each thing.opinions}}
+          <li>
+            <span class="star-rating prior">
+              <span style="width: {{starWidth rating}}%"></span>
+            </span>
+            <span class="opinion-created-at">{{formatDate created_at}}</span><q>{{comment}}</q><cite>&mdash;{{username}}
+          </li>
+        {{/each}}
+      </ul>
+    </div>
+  </section>
 </section>
+</script>
+<script>$(function() { loadThingPage(); });</script>

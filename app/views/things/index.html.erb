@@ -1,6 +1,6 @@
 <h1>Things</h1>
 <div id="content"></div>
-<script id="thing-template" type="text/x-handlebars-template">
+<script id="things-template" type="text/x-handlebars-template">
 	<ul class="things-list">
 	  {{#each things}}
 	  	<li class="large-4 medium-6 small-12 columns left">
@@ -11,3 +11,5 @@
 	  {{/each}}
 	</ul>
 </script>
+
+<script>$(function() { loadThingsPage(); });</script>
