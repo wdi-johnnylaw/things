@@ -46,13 +46,13 @@ describe OpinionsController do
           opinion = body['opinion']
           expect(opinion['rating']).to eq post_params[:opinion][:rating]
           expect(opinion['comment']).to eq post_params[:opinion][:comment]
-          expect(opinion['url']).to eq opinion_url(Opinion.first)
+          expect(opinion['url']).to eq opinion_url(Opinion.first, format: 'json')
           thing = opinion['thing']
-          expect(opinion.keys.count).to eq 4
+          expect(opinion.keys.count).to eq 5
 
           expect(thing['average_rating']).to eq 23.55
-          expect(thing.keys.count).to eq 1
-          expect(response.headers['Location']).to eq opinion_url(Opinion.first)
+          expect(thing.keys.count).to eq 2
+          expect(response.headers['Location']).to eq opinion_url(Opinion.first, format: 'json')
           expect(body['messages']['notice']).to eq "Thank you for your opinion!"
         end
       end
@@ -78,7 +78,7 @@ describe OpinionsController do
           post 'create', post_params.merge(format: 'json')
           body = JSON.parse response.body
           expect(body['messages']['alert']).to eq "Could not handle your opinion!"
-          expect(body.keys.count).to eq 1
+          expect(body.keys.count).to eq 2 # includes form_authenticity_token
           expect(response.response_code).to eq 400
         end
       end
@@ -144,13 +144,14 @@ describe OpinionsController do
           opinion = body['opinion']
           expect(opinion['rating']).to eq post_params[:opinion][:rating]
           expect(opinion['comment']).to eq post_params[:opinion][:comment]
-          expect(opinion['url']).to eq opinion_url(Opinion.first)
+          expect(opinion['url']).to eq opinion_url(Opinion.first, format: 'json')
           thing = opinion['thing']
-          expect(opinion.keys.count).to eq 4
+
+          expect(opinion.keys.count).to eq 5
 
           expect(thing['average_rating']).to eq 23.55
-          expect(thing.keys.count).to eq 1
-          expect(response.headers['Location']).to eq opinion_url(Opinion.first)
+          expect(thing.keys.count).to eq 2
+          expect(response.headers['Location']).to eq opinion_url(Opinion.first, format: 'json')
           expect(body['messages']['notice']).to eq "Thank you for your opinion!"
         end
       end
@@ -178,7 +179,7 @@ describe OpinionsController do
             patch 'update', patch_params.merge(format: 'json')
             body = JSON.parse response.body
             expect(body['messages']['alert']).to eq "Could not update your opinion!"
-            expect(body.keys.count).to eq 1
+            expect(body.keys.count).to eq 2 # includes form_authenticity_token
             expect(response.response_code).to eq 400
           end
         end

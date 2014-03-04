@@ -8,4 +8,11 @@ json.thing do |json|
       json.username opinion.user.username
     end
   end
+
+  opinion = @thing.opinions.find_by(user_id: current_user.id) || Opinion.new(thing: @thing)
+  json.current_user_opinion do |json|
+    json.partial! opinion
+  end
 end
+
+json.partial! 'shared/messages'

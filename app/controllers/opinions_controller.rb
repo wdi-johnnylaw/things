@@ -6,7 +6,7 @@ class OpinionsController < ApplicationController
       if @opinion.save
         flash[:notice] = "Thank you for your opinion!"
         format.html { redirect_to @opinion.thing }
-        format.json { render action: 'show', status: :created, location: @opinion }
+        format.json { render action: 'show', status: :created, location: opinion_url(@opinion, format: 'json') }
       else
         flash[:alert] = "Could not handle your opinion!"
         format.html { redirect_to @opinion.thing }
@@ -22,7 +22,7 @@ class OpinionsController < ApplicationController
       if @opinion.update(opinion_params)
         flash[:notice] = "Thank you for your opinion!"
         format.html { redirect_to @opinion.thing }
-        format.json { render action: 'show', location: @opinion }
+        format.json { render action: 'show', location: opinion_url(@opinion, format: 'json') }
       else
         flash[:alert] = "Could not update your opinion!"
         format.html { redirect_to @opinion.thing }

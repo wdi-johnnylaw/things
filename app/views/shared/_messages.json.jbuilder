@@ -4,3 +4,5 @@ json.messages do |json|
 end
 
 flash.clear
+
+json.form_authenticity_token form_authenticity_token
