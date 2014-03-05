@@ -1,9 +1,15 @@
 class ThingsController < ApplicationController
   def index
-    @things = Thing.all
+    respond_to do |format|
+      format.json { @things = Thing.all }
+      format.html {}
+    end
   end
 
   def show
-    @thing = Thing.find params[:id]
+    respond_to do |format|
+      format.json { @thing = Thing.find params[:id] }
+      format.html { @thing = Thing.find params[:id] }
+    end
   end
 end

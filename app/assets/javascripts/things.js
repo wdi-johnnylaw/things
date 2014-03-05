@@ -33,6 +33,10 @@ window.loadThingsPage = function() {
     url: 'http://localhost:3000/things.json',
     dataType: 'json'
   }).done(function(data) {
+    Handlebars.registerHelper('truncateURL', function(url) {
+     return url.replace(/\.json$/, '');
+    });
+
     // grabs the template we're going to use
     var source = $("#things-template").html();
     // compiles it with Handlebars (pops content from things into thing-template)
