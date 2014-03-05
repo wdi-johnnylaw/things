@@ -9,6 +9,13 @@ $(function() {
          data: $form.serialize()
       }).done(function(data) {
          var opinion = data.opinion;
+         $form.prop('action', opinion.url);
+         var $method = $form.find('input[name="_method"]');
+         if($method.length > 0) {
+            $method.val('patch');
+         } else {
+            $form.append('<input type="hidden" name="_method" value="patch" />');
+         }
          var ratingPercentage = opinion.rating * 20;
          var opinionCreatedAt = $.format.date(opinion.created_at, "ddd, MMM d, yyyy h:mm a").replace(/^([\w]{3})[\w]+(.*)$/, '$1$2')
 
