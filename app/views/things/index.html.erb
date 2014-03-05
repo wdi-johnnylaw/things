@@ -1,5 +1,18 @@
 <h1>Things</h1>
+<div id="content"></div>
 
-<ul class="things-list">
-  <%= render @things %>
-</ul>
+
+
+<script id="things-template" type="text/x-handlebars-template">
+	<ul class="things-list">
+	  {{#each things}}
+	  	<li class="large-4 medium-6 small-12 columns left">
+	  		<a href="/things/{{id}}" class="container large-11 medium-11 small-11 columns">
+    		<img src="{{image_url}}"<span class="name">{{name}}</span>
+    		</a>
+	  	</li>
+	  {{/each}}
+	</ul>
+</script>
+
+<script>$(function() { loadThingsPage(); });</script>
