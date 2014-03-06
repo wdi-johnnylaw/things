@@ -1,5 +1,5 @@
 $(function() {
-   $('form#current-user-opinion').submit(function() {
+   $(document.body).on('submit', 'form#current-user-opinion', function() {
       event.preventDefault();
       var $form = $(this);
       $.ajax({
@@ -8,24 +8,19 @@ $(function() {
          dataType: 'json',
          data: $form.serialize()
       }).done(function(data) {
-         var opinion = data.opinion;
-         $form.prop('action', opinion.url);
-         var $method = $form.find('input[name="_method"]');
-         if($method.length > 0) {
-            $method.val('patch');
-         } else {
-            $form.append('<input type="hidden" name="_method" value="patch" />');
-         }
-         var ratingPercentage = opinion.rating * 20;
-         var opinionCreatedAt = $.format.date(opinion.created_at, "ddd, MMM d, yyyy h:mm a").replace(/^([\w]{3})[\w]+(.*)$/, '$1$2')
+         data.opinion.form_authenticity_token = data.form_authenticity_token;
+         var template = Handlebars.compile($('#stars-span-partial').html());
+         $('#thing-' + data.opinion.thing.id + '-average-rating').html(template(data.opinion.thing));
 
-         var opinionHTML = '<li id="opinion-' + opinion.id + '"><span class="star-rating prior"><span style="width:' + ratingPercentage + '%"></span></span><span class="opinion-created-at">' + opinionCreatedAt + '</span><q>' + opinion.comment + '</q><cite>&mdash;' + opinion.username + '</cite></li>';
-         var $list = $('ul.opinions-list');
-         var $existingItem = $list.find('li#opinion-' + opinion.id);
-         if($existingItem.length > 0) {
-            $existingItem.remove();
-         }
+         template = Handlebars.compile($('#opinion-form-template').html());
+         Handlebars.setOpinionButtons(data.opinion);
+         $('#opinion-form-container').html(template(data.opinion));
+
+         template = Handlebars.compile($('#opinion-list-item').html());
+         var opinionHTML = template(data.opinion);
+         $('li#opinion-' + data.opinion.id).remove();
          $('ul.opinions-list').prepend(opinionHTML);
+         $('li#opinion-' + data.opinion.id).hide().show(500);
       });
    });
 });

@@ -1,34 +1,58 @@
-<h1>
-  <span class="name"></span>
-  <%= render partial: 'opinions/rating' %>
-</h1>
+<div id="content"></div>
+<script id="thing-template" type="text/x-handlebars-template">
+  <h1>
+    <span class="name">{{name}}</span>
+    <span id="thing-{{id}}-average-rating" class="star-rating prior">
+    {{> starsSpan}}
+    </span>
+  </h1>
 
-<section class="row">
-  <span class="small-12 medium-5 column">
-    <img class="thing-image" />
-  </span>
+  <section class="row">
+    <span class="small-12 medium-5 column">
+      <img class="thing-image" src="{{image_url}}" alt="{{name}}" title="{{name}}" />
+    </span>
 
-  <div class="small-12 medium-7 column">
-    <p class="thing-description"></p>
+    <div class="small-12 medium-7 column">
+      <p class="thing-description">{{description}}</p>
 
-    <fieldset>
-      <% opinion = @thing.opinions.find_by(user_id: current_user.id) || Opinion.new %>
-      <legend><%= give_your_opinion_banner(opinion) %></legend>
-      <%= form_for opinion, html: { id: 'current-user-opinion' } do |f| %>
-        <%= f.hidden_field :thing_id, value: @thing.id %>
-        <span class="star-rating">
-          <%= f.radio_button :rating, 1, class: 'one' %><i></i>
-          <%= f.radio_button :rating, 2, class: 'two' %><i></i>
-          <%= f.radio_button :rating, 3, class: 'three' %><i></i>
-          <%= f.radio_button :rating, 4, class: 'four' %><i></i>
-          <%= f.radio_button :rating, 5, class: 'five' %><i></i>
-        </span>
-        <%= f.text_area :comment %>
-        <%= f.submit 'Rate' %>
-      <% end %>
-    </fieldset>
+      <fieldset id="opinion-form-container"></fieldset>
 
-    <ul class="opinions-list"></ul>
-  </div>
-</section>
-<script>$(function() { window.loadThingPage(); });</script>
+      <ul class="opinions-list"></ul>
+    </div>
+  </section>
+</script>
+
+<script id="stars-span-partial" type="text/x-handlebars-template">
+  <span style="width: {{starWidth average_rating}}%"></span>
+</script>
+
+<script id="opinion-form-template" type="text/x-handlebars-template">
+  <legend>{{opinionFormBanner is_new}}</legend>
+  <form action="{{url}}" method="post" id="current-user-opinion">
+    <input type="hidden" name="authenticity_token" value="{{form_authenticity_token}}" />
+    <input name="utf8" type="hidden" value="&#x2713;" />
+    {{#unless is_new}}<input type="hidden" name="_method" value="patch" />{{/unless}}
+    <input name="opinion[thing_id]" type="hidden" value="{{thing.id}}" />
+    <span class="star-rating">
+      {{#each buttons}}
+        <input name="opinion[rating]" type="radio" class="{{klass}}" name="{{name}}"
+            value="{{value}}" {{#if checked}}checked="checked" {{/if}}/><i></i>
+      {{/each}}
+    </span>
+    <textarea name="opinion[comment]">{{comment}}</textarea>
+    <input type="submit" value="Rate" />
+  </form>
+</script>
+
+<script id="opinion-list-item" type="text/x-handlebars-template">
+  <li id="opinion-{{id}}">
+    <span class="star-rating prior">
+      <span style="width: {{starWidth rating}}%"></span>
+    </span>
+    <span class="opinion-created-at">{{formatTime created_at}}</span>
+    <q>{{comment}}</q>
+    <cite>&mdash; {{username}}</cite>
+  </li>
+</script>
+
+<script type="text/javascript">$(function() { window.loadThingPage(); });</script>
