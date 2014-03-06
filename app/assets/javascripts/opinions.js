@@ -1,5 +1,5 @@
 $(function() {
-   $(document.body).on('submit', 'form#current-user-opinion', function() {
+   $(document.body).on('submit', 'form#current-user-opinion', function(event) {
       event.preventDefault();
       var $form = $(this);
       $.ajax({

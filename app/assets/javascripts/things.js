@@ -18,8 +18,6 @@ Handlebars.registerHelper('opinionFormBanner', function(isNew) {
   }
 });
 
-Handlebars.registerPartial("starsSpan", $("#stars-span-partial").html());
-
 Handlebars.setOpinionButtons = function(opinion) {
   opinion.buttons = [
       {klass: 'one', value: 1, checked: opinion.rating == 1},
@@ -31,6 +29,8 @@ Handlebars.setOpinionButtons = function(opinion) {
 };
 
 window.loadThingPage = function() {
+  Handlebars.registerPartial("starsSpan", $("#stars-span-partial").html());
+
   $.get(window.location.href + '.json', function(data) {
     data.thing.current_user_opinion.form_authenticity_token = data.form_authenticity_token;
     var template = Handlebars.compile($('#thing-template').html());
