@@ -6,6 +6,10 @@ Handlebars.registerHelper('starWidth', function(rating) {
  return rating * 20;
 });
 
+Handlebars.registerHelper('formAuthenticityToken', function() {
+  return window.formAuthenticityToken;
+});
+
 Handlebars.registerHelper('truncateURL', function(url) {
  return url.replace(/\.json$/, '');
 });
@@ -18,6 +22,11 @@ Handlebars.registerHelper('opinionFormBanner', function(isNew) {
   }
 });
 
+Handlebars.render = function(templateSelector, data, containerSelector) {
+  var template = Handlebars.compile($(templateSelector).html());
+  $(containerSelector).html(template(data));
+};
+
 Handlebars.setOpinionButtons = function(opinion) {
   opinion.buttons = [
       {klass: 'one', value: 1, checked: opinion.rating == 1},
@@ -29,37 +38,35 @@ Handlebars.setOpinionButtons = function(opinion) {
 };
 
 window.loadThingPage = function() {
-  Handlebars.registerPartial("starsSpan", $("#stars-span-partial").html());
-
-  $.get(window.location.href + '.json', function(data) {
-    data.thing.current_user_opinion.form_authenticity_token = data.form_authenticity_token;
+  Handlebars.registerPartial('starsSpan', $('#stars-span-partial').html());
+  Handlebars.registerPartial('opinionFormPartial', $('#opinion-form-template').html());
+  Handlebars.registerPartial('opinionListPartial', $('#opinion-list-item').html());
+  ThingsApp.ajaxLoadPageData().done(function(data) {
+    Handlebars.setOpinionButtons(data.thing.current_user_opinion);
     var template = Handlebars.compile($('#thing-template').html());
     $('#content').html(template(data.thing));
-
-    Handlebars.setOpinionButtons(data.thing.current_user_opinion);
-    template = Handlebars.compile($('#opinion-form-template').html());
-    $('#opinion-form-container').html(template(data.thing.current_user_opinion));
-
-    template = Handlebars.compile($('#opinion-list-item').html());
-    $('ul.opinions-list').html('');
-    $.each(data.thing.opinions, function() {
-      $('ul.opinions-list').append(template(this));
-    });
   });
 };
 
 window.loadThingsPage = function() {
-  // AJAX call to get our list of things
-  $.ajax({
-    type: 'GET',
-    url: 'http://localhost:3000/things.json',
-    dataType: 'json'
-  }).done(function(data) {
-    // grabs the template we're going to use
-    var source = $("#things-template").html();
-    // compiles it with Handlebars (pops content from things into thing-template)
-    var template = Handlebars.compile(source);
-    // displays compiled template with things in a div called content
-    $('#content').html(template(data));
+  ThingsApp.ajaxLoadPageData().done(function(data) {
+    Handlebars.render('#things-template', data, '#content');
   });
 };
+
+$(document.body).on('submit', 'form#current-user-opinion', function(event) {
+   event.preventDefault();
+   $(this).ajaxSubmitForm().done(function(data) {
+      var opinion = data.opinion;
+      Handlebars.render('#stars-span-partial', opinion.thing, '#thing-' + opinion.thing.id + '-average-rating');
+
+      Handlebars.setOpinionButtons(data.opinion);
+      Handlebars.render('#opinion-form-template', opinion, '#opinion-form-container');
+
+      template = Handlebars.compile($('#opinion-list-item').html());
+      var opinionHTML = template(opinion);
+      $('li#opinion-' + opinion.id).remove();
+      $('ul.opinions-list').prepend(opinionHTML);
+      $('li#opinion-' + opinion.id).hide().show(500);
+   });
+});

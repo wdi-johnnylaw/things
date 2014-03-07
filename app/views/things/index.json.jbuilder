@@ -8,3 +8,5 @@ json.things do |json|       # Gives the root, { things: ...}
     end
   end
 end
+
+json.partial! 'shared/messages'

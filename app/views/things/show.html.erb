@@ -1,9 +1,10 @@
 <div id="content"></div>
+
 <script id="thing-template" type="text/x-handlebars-template">
   <h1>
     <span class="name">{{name}}</span>
     <span id="thing-{{id}}-average-rating" class="star-rating prior">
-    {{> starsSpan}}
+      {{> starsSpan}}
     </span>
   </h1>
 
@@ -15,9 +16,9 @@
     <div class="small-12 medium-7 column">
       <p class="thing-description">{{description}}</p>
 
-      <fieldset id="opinion-form-container"></fieldset>
+      <fieldset id="opinion-form-container">{{> opinionFormPartial current_user_opinion}}</fieldset>
 
-      <ul class="opinions-list"></ul>
+      <ul class="opinions-list">{{#each opinions}}{{>opinionListPartial this}}{{/each}}</ul>
     </div>
   </section>
 </script>
@@ -29,7 +30,7 @@
 <script id="opinion-form-template" type="text/x-handlebars-template">
   <legend>{{opinionFormBanner is_new}}</legend>
   <form action="{{url}}" method="post" id="current-user-opinion">
-    <input type="hidden" name="authenticity_token" value="{{form_authenticity_token}}" />
+    <input type="hidden" name="authenticity_token" value="{{formAuthenticityToken}}" />
     <input name="utf8" type="hidden" value="&#x2713;" />
     {{#unless is_new}}<input type="hidden" name="_method" value="patch" />{{/unless}}
     <input name="opinion[thing_id]" type="hidden" value="{{thing.id}}" />

@@ -9,7 +9,7 @@ class ThingsController < ApplicationController
   def show
     respond_to do |format|
       format.json { @thing = Thing.find params[:id] }
-      format.html { @thing = Thing.find params[:id] }
+      format.html {}
     end
   end
 end
