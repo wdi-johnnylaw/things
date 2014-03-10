@@ -11,6 +11,23 @@ ul.things-list {
     height: 100px;
     margin: 3px 0;
 
+    a.thing-delete-link {
+      position: absolute;
+      display: block;
+      left: 20px;
+      height: 20px;
+      width: 20px;
+      border: 2px solid gray;
+      border-radius: 10px;
+
+      span {
+        position: relative;
+        top: -2px;
+        left: 3px;
+        color: gray;
+      }
+    }
+
     img {
       float: left;
       height: 50px;
