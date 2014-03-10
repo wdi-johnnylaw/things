@@ -1,19 +1,12 @@
 <h1>Things</h1>
 
-<div id="content">
-</div>
-
-<script id="things-template" type="text/x-handlebars-template">
+<div id="content" data-ng-controller="thingsCtrl">
   <ul class="things-list">
-    {{#each things}}
-      <li class="large-4 medium-6 small-12 columns left">
-        <a href="{{truncateURL url}}" class="container large-11 medium-11 small-11 columns">
-          <img src="{{image_url}}" alt="{{name}}" title="{{name}}" />
-          <span>{{name}}</span>
-        </a>
-      </li>
-    {{/each}}
+    <li data-ng-repeat="thing in things" class="large-4 medium-6 small-12 columns left">
+      <a href="{{thing.url}}" class="container large-11 medium-11 small-11 columns">
+        <img data-ng-src="{{thing.image_url}}" alt="{{thing.name}}" title="{{thing.name}}" />
+        <span>{{thing.name}}</span>
+      </a>
+    </li>
   </ul>
-</script>
-
-<script type="text/javascript">$(function() { loadThingsPage(); });</script>
+</div>

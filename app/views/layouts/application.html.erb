@@ -9,10 +9,54 @@
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "vendor/modernizr" %>
     <%= javascript_include_tag "jquery" %>
-    <%= csrf_meta_tags %>
+
+    <%= javascript_include_tag "application" %>
+    <script type="text/javascript">
+      angular.module('ThingsFilters', []).filter('opinionBannerLegend', function() {
+        return function(isNew) {
+          return isNew ? 'Please give us your opinion.' : 'Change of heart? Update your opinion.';
+        };
+      }).filter('formAuthenticityToken', function() {
+        return function() {
+          return window.formAuthenticityToken;
+        };
+      }).filter('ratingPercentage', function() {
+        return function(rating) {
+          return rating * 20;
+        };
+      }).filter('formatDate', function() {
+        return function(date) {
+          return $.format.date(date, "ddd, MMM d, yyyy h:mm a").replace(/^([\w]{3})[\w]+(.*)$/, '$1$2');
+        };
+      });
+
+      var ThingsApp = angular.module('ThingsApp', ['restangular', 'ThingsFilters']);
+
+      ThingsApp.config(function(RestangularProvider) {
+        RestangularProvider.setRequestSuffix('.json');
+        RestangularProvider.setResponseExtractor(function(response, operation, objectName) {
+          window.formAuthenticityToken = response.form_authenticity_token;
+          if(operation === 'getList') {
+            return response[objectName];
+          } else if(operation === 'get') {
+            return response[objectName.replace(/s$/, '')];
+          }
+        });
+      });
+
+      ThingsApp.controller('thingsCtrl', ['$scope', 'Restangular', function($scope, Restangular) {
+        Restangular.all('things').getList().then(function(things) {
+          $scope.things = things;
+        });
+      }]).controller('thingCtrl', ['$scope', 'Restangular', function($scope, Restangular) {
+        Restangular.oneUrl('thing', window.location.href + '.json').get().then(function(thing) {
+          $scope.thing = thing;
+        });
+      }]);
+    </script>
   </head>
 
-  <body class="hide">
+  <body data-ng-app="ThingsApp">
     <header>
       <span><%= link_to 'All things', things_path %></span>
       <span class="logged-in">Logged in as <span class="username"><%= current_user.username %></span></span>
@@ -25,8 +69,5 @@
       <% end %>
       <%= yield %>
     </section>
-
-    <%= javascript_include_tag "application" %>
-    <script>$(function(){$('body').removeClass('hide');});</script>
   </body>
 </html>

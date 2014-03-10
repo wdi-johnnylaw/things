@@ -14,33 +14,11 @@
 //     apparently
 // require jquery
 //
-//= require jquery_ujs
 //= require foundation
-//= require turbolinks
+//= require angular.min
+//= require lodash
+//= require angular-route.min
+//= require restangular
 //= require_tree .
 
 $(function(){ $(document).foundation(); });
-
-window.ThingsApp = {
-  ajaxLoadPageData: function(url) {
-    return $.ajax({
-      type: 'GET',
-      url: url || (window.location.href + '.json'),
-      dataType: 'json'
-    }).done(function(data) {
-      window.formAuthenticityToken = data.form_authenticity_token;
-    });
-  }
-}
-
-$.fn.ajaxSubmitForm = function(options) {
-  var $form = $(this);
-  return $.ajax({
-    type: 'POST',
-    url: $form.prop('action'),
-    dataType: 'json',
-    data: $form.serialize(),
-  }).done(function(data) {
-    window.formAuthenticityToken = data.form_authenticity_token;
-  });
-};

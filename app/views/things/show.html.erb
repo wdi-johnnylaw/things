@@ -1,59 +1,48 @@
-<div id="content"></div>
-
-<script id="thing-template" type="text/x-handlebars-template">
+<div id="content" data-ng-controller="thingCtrl">
   <h1>
-    <span class="name">{{name}}</span>
-    <span id="thing-{{id}}-average-rating" class="star-rating prior">
-      {{> starsSpan}}
+    <span class="name">{{thing.name}}</span>
+    <span id="thing-{{thing.id}}-average-rating" class="star-rating prior">
+      <span style="width: {{thing.average_rating|ratingPercentage}}%">
     </span>
   </h1>
 
   <section class="row">
     <span class="small-12 medium-5 column">
-      <img class="thing-image" src="{{image_url}}" alt="{{name}}" title="{{name}}" />
+      <img class="thing-image" data-ng-src="{{thing.image_url}}" alt="{{thing.name}}" title="{{thing.name}}" />
     </span>
 
     <div class="small-12 medium-7 column">
-      <p class="thing-description">{{description}}</p>
+      <p class="thing-description">{{thing.description}}</p>
 
-      <fieldset id="opinion-form-container">{{> opinionFormPartial current_user_opinion}}</fieldset>
+      <fieldset id="opinion-form-container">
+        <legend>{{thing.current_user_opinion.is_new|opinionBannerLegend}}</legend>
+        <form action="{{thing.current_user_opinion.url}}" method="post" id="current-user-opinion">
+          <input type="hidden" name="authenticity_token" value="{{thing|formAuthenticityToken}}" />
+          <input name="utf8" type="hidden" value="&#x2713;" />
+          <input name="opinion[thing_id]" type="hidden" value="{{thing.id}}" />
+          <span class="star-rating">
+            <input type="radio" name="opinion[rating]" class="one" value="1" data-ng-checked="thing.current_user_opinion.rating == 1" /><i></i>
+            <input type="radio" name="opinion[rating]" class="two" value="2" data-ng-checked="thing.current_user_opinion.rating == 2" /><i></i>
+            <input type="radio" name="opinion[rating]" class="three" value="3" data-ng-checked="thing.current_user_opinion.rating == 3" /><i></i>
+            <input type="radio" name="opinion[rating]" class="four" value="4" data-ng-checked="thing.current_user_opinion.rating == 4" /><i></i>
+            <input type="radio" name="opinion[rating]" class="five" value="5" data-ng-checked="thing.current_user_opinion.rating == 5" /><i></i>
+          </span>
+          <span class="opinion-created-at">{{thing.current_user_opinion.created_at|formatDate}}</span>
+          <textarea name="opinion[comment]">{{thing.current_user_opinion.comment}}</textarea>
+          <input type="submit" value="Rate" />
+        </form>
+      </fieldset>
 
-      <ul class="opinions-list">{{#each opinions}}{{>opinionListPartial this}}{{/each}}</ul>
+      <ul class="opinions-list">
+        <li data-ng-repeat="opinion in thing.opinions" id="opinion-{{opinion.id}}">
+          <span class="star-rating prior">
+            <span style="width: {{opinion.rating|ratingPercentage}}%"></span>
+          </span>
+          <span class="opinion-created-at">{{opinion.created_at|formatDate}}</span>
+          <q>{{opinion.comment}}</q>
+          <cite>&mdash; {{opinion.username}}</cite>
+        </li>
+      </ul>
     </div>
   </section>
-</script>
-
-<script id="stars-span-partial" type="text/x-handlebars-template">
-  <span style="width: {{starWidth average_rating}}%"></span>
-</script>
-
-<script id="opinion-form-template" type="text/x-handlebars-template">
-  <legend>{{opinionFormBanner is_new}}</legend>
-  <form action="{{url}}" method="post" id="current-user-opinion">
-    <input type="hidden" name="authenticity_token" value="{{formAuthenticityToken}}" />
-    <input name="utf8" type="hidden" value="&#x2713;" />
-    {{#unless is_new}}<input type="hidden" name="_method" value="patch" />{{/unless}}
-    <input name="opinion[thing_id]" type="hidden" value="{{thing.id}}" />
-    <span class="star-rating">
-      {{#each buttons}}
-        <input name="opinion[rating]" type="radio" class="{{klass}}" name="{{name}}"
-            value="{{value}}" {{#if checked}}checked="checked" {{/if}}/><i></i>
-      {{/each}}
-    </span>
-    <textarea name="opinion[comment]">{{comment}}</textarea>
-    <input type="submit" value="Rate" />
-  </form>
-</script>
-
-<script id="opinion-list-item" type="text/x-handlebars-template">
-  <li id="opinion-{{id}}">
-    <span class="star-rating prior">
-      <span style="width: {{starWidth rating}}%"></span>
-    </span>
-    <span class="opinion-created-at">{{formatTime created_at}}</span>
-    <q>{{comment}}</q>
-    <cite>&mdash; {{username}}</cite>
-  </li>
-</script>
-
-<script type="text/javascript">$(function() { window.loadThingPage(); });</script>
+</div>
