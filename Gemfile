@@ -37,6 +37,10 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'pry'
+  gem 'database_cleaner'     # Allows us to turn off transactional fixtures
+  gem 'capybara'
+  gem 'capybara-firebug', '~> 1.3.0'  # Allows firefox to turn Firebug on during tests
+  gem 'selenium-webdriver', '~> 2.38.0' # Allows us to use JS
 end
 
 # Use ActiveModel has_secure_password
